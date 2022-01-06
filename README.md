@@ -2,7 +2,7 @@
 
 ## 배포
 
-
+https://pre-onboarding-frontend.netlify.app/
 
 ## 실행
 
@@ -37,4 +37,4 @@ http://localhost:3000/
 
 ### 배포
 
-- [ ] netlify를 이용한 배포
+- [x] netlify를 이용한 배포
