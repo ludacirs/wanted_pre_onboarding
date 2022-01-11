@@ -15,7 +15,8 @@ body {
 }
 a {
   text-decoration: none;
-  outline: none
+  outline: none;
+  color: #333;
 }
 
 a:hover, a:active, a:visited {
