@@ -5,7 +5,32 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333333;
+}
+
+*{
   box-sizing: border-box;
+}
+a {
+  text-decoration: none;
+  outline: none
+}
+
+a:hover, a:active, a:visited {
+  text-decoration: none;
+  color: #333333;
+}
+
+button{
+  background: inherit;
+  border:none;
+  box-shadow:none;
+  border-radius:0;
+  padding:0;
+  overflow:visible;
+  cursor:pointer;
 }
 
 code {
