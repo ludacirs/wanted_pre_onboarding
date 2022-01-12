@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import BannerItem from "./BannerItem/BannerItem";
 import dummy from "../../../mock/dummy.json";
+import { flexBox } from "../../../lib/styles/mixin";
+import useSlide from "./useSlide";
 
 const CarouselBlock = styled.div`
   position: relative;
@@ -9,28 +11,31 @@ const CarouselBlock = styled.div`
   margin-bottom: 0;
   .slick-list {
     padding: 0 50px;
-    .slick-track {
-      position: relative;
-      left: 0;
-      top: 0;
-      display: block;
-    }
   }
 `;
 
-const Carousel = () => {
-  const [bannerItems, setBannerItems] = useState([]);
+const SlickTrack = styled.div`
+  display: flex;
+  position: relative;
+  left: 0;
+  top: 0;
 
-  useEffect(() => {
-    const data = dummy;
-    setBannerItems(data);
-  }, []);
+  ${({ width }) => `width: ${width}px`};
+  transform: ${({ initTranslateX }) => `translateX(${initTranslateX}px)`};
+`;
+
+const Carousel = () => {
+  const { bannerItems, initTranslateX, slickTrackWidth, bannerImageSize } =
+    useSlide();
 
   return (
     <CarouselBlock>
-      <div className={"slick-list"}>
-        <div className={"slick-track"}>{bannerItems.map(BannerItem)}</div>
-      </div>
+      <SlickTrack width={slickTrackWidth} initTranslateX={initTranslateX}>
+        {bannerItems.map((item, index) => {
+          const props = { bannerImageSize, ...item };
+          return <BannerItem key={index} {...props} />;
+        })}
+      </SlickTrack>
     </CarouselBlock>
   );
 };

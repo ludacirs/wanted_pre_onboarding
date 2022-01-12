@@ -7,6 +7,7 @@ const BannerBlock = styled.div`
   position: relative;
   overflow: hidden;
   height: auto;
+  margin-top: 20px;
 `;
 
 const Banner = () => {
