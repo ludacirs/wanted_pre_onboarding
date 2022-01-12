@@ -1,0 +1,16 @@
+[
+  {
+    "index": 0,
+    "title": "나도 개발자 되고 싶다",
+    "description": "프론트엔드 무료 교육과정 참여하기",
+    "link": "https://www.wanted.co.kr/events/pre_onboarding_course_6",
+    "imageSrc": "http://localhost:3000/assets/banners/0.jpg"
+  },
+  {
+    "index": 1,
+    "title": "나도 개발자 되고 싶다1",
+    "description": "프론트엔드 무료 교육과정 참여하기1",
+    "link": "https://www.wanted.co.kr/events/pre_onboarding_course_6",
+    "imageSrc": "http://localhost:3000/assets/banners/1.jpg"
+  }
+]
