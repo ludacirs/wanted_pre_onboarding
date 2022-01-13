@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ReactComponent as RightArrow } from "../../../assets/svgs/right-arrow.svg";
 import { ReactComponent as LeftArrow } from "../../../assets/svgs/left-arrow.svg";
 import { flexBox } from "../../../lib/styles/mixin";
+import ArrowContainer from "../../_common/ArrowContainer/ArrowContainer";
 
 const positionTemplate = {
   right: `right: calc((100% - 1200px) / 2);`,
@@ -11,7 +12,7 @@ const positionTemplate = {
 };
 
 const ArrowButtonBlock = styled.button`
-  ${flexBox("center", "center")};
+  display: none;
   ${({ position }) => positionTemplate[position]};
 
   position: absolute;
@@ -23,30 +24,17 @@ const ArrowButtonBlock = styled.button`
   background-color: #fff;
   font-size: 16px;
 
-  .arrow-container {
-    ${flexBox("inherit", "inherit")};
-    width: 100%;
-    svg {
-      user-select: none;
-      width: 1em;
-      height: 1em;
-      display: inline-block;
-      fill: currentColor;
-      flex-shrink: 0;
-    }
-  }
-
-  @media ${({ theme }) => theme.bannerS} {
-    display: none;
+  @media ${({ theme }) => theme.bannerL} {
+    ${flexBox("center", "center")};
   }
 `;
 
 const ArrowButton = ({ position }) => {
   return (
     <ArrowButtonBlock position={position}>
-      <div className="arrow-container">
+      <ArrowContainer>
         {position === "right" ? <RightArrow /> : <LeftArrow />}
-      </div>
+      </ArrowContainer>
     </ArrowButtonBlock>
   );
 };
