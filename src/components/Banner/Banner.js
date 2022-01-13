@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import ArrowButton from "./ArrowButton/ArrowButton";
 import Carousel from "./Carousel/Carousel";
+import useSlide from "./Carousel/useSlide";
 
 const BannerBlock = styled.div`
   position: relative;
@@ -11,11 +12,13 @@ const BannerBlock = styled.div`
 `;
 
 const Banner = () => {
+  const { prevSlide, nextSlide } = useSlide();
+
   return (
     <BannerBlock>
       <Carousel />
-      <ArrowButton position={"right"} />
-      <ArrowButton position={"left"} />
+      <ArrowButton position={"right"} handleClick={nextSlide} />
+      <ArrowButton position={"left"} handleClick={prevSlide} />
     </BannerBlock>
   );
 };

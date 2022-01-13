@@ -29,9 +29,9 @@ const ArrowButtonBlock = styled.button`
   }
 `;
 
-const ArrowButton = ({ position }) => {
+const ArrowButton = ({ position, handleClick }) => {
   return (
-    <ArrowButtonBlock position={position}>
+    <ArrowButtonBlock position={position} onClick={handleClick}>
       <ArrowContainer>
         {position === "right" ? <RightArrow /> : <LeftArrow />}
       </ArrowContainer>

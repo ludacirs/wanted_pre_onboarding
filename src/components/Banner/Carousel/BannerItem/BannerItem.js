@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import ArrowContainer from "../../../_common/ArrowContainer/ArrowContainer";
 import { ReactComponent as RightArrow } from "../../../../assets/svgs/right-arrow.svg";
+import { useSlideState } from "../../../../contexts/SlideContext";
 
 const BannerItem = ({
   imageSrc,
@@ -9,12 +10,18 @@ const BannerItem = ({
   description,
   link,
   bannerImageSize,
+  arrayIndex,
 }) => {
+  const { currentIndex, bannerItems } = useSlideState();
+
   return (
-    <BannerItemBlock bannerSize={bannerImageSize}>
+    <BannerItemBlock
+      bannerSize={bannerImageSize}
+      className={arrayIndex === currentIndex ? "current" : ""}
+    >
       <div className="item-container">
         <ImageContainer>
-          <a href="#">
+          <a href={link}>
             <img src={imageSrc} alt="배너 이미지" />
           </a>
         </ImageContainer>
@@ -22,7 +29,7 @@ const BannerItem = ({
           <h2 className={"title"}>{title}</h2>
           <h3 className={"description"}>{description}</h3>
           <hr />
-          <a href="#">
+          <a href={link}>
             <span>
               바로가기
               <ArrowContainer>
@@ -42,6 +49,12 @@ const BannerItemBlock = styled.div`
   padding: 0 12px;
   box-sizing: content-box;
   position: relative;
+  &:not(.current) .item-container {
+    filter: brightness(50%);
+    & div:nth-child(2) {
+      display: none;
+    }
+  }
   .item-container {
     width: 100%;
     display: inline-block;
@@ -49,7 +62,6 @@ const BannerItemBlock = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  filter: brightness(100%);
   a {
     text-decoration: inherit;
     cursor: pointer;
@@ -65,6 +77,8 @@ const ImageContainer = styled.div`
 `;
 
 const InformationContainer = styled.div`
+  transition: 0.45s;
+  text-align: center;
   h2 {
     margin-top: 20px;
     font-size: 18px;
