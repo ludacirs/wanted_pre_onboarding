@@ -8,6 +8,7 @@ const theme = {
   desktopM: `(min-width: ${size.small}) and (max-width: ${size.big})`,
   desktopL: `(min-width: ${size.big})`,
   desktopMS: `(max-width: 991px)`,
+  bannerS: `(max-width: 1199px)`,
 };
 
 export default theme;
