@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import BannerItem from "./BannerItem/BannerItem";
-import dummy from "../../../mock/dummy.json";
-import { flexBox } from "../../../lib/styles/mixin";
 import useSlide from "./useSlide";
 
 const CarouselBlock = styled.div`
