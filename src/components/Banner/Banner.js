@@ -14,8 +14,8 @@ const Banner = () => {
   return (
     <BannerBlock>
       <Carousel />
-      <ArrowButton />
-      <ArrowButton />
+      <ArrowButton position={"right"} />
+      <ArrowButton position={"left"} />
     </BannerBlock>
   );
 };
