@@ -1,7 +1,6 @@
-import React, { useEffect, useRef } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import BannerItem from "./BannerItem/BannerItem";
-import useSlide from "./useSlide";
 import {
   CHANGE_FORCE,
   FORCE_MOVE,
@@ -9,6 +8,7 @@ import {
   useSlideDispatch,
   useSlideState,
 } from "../../../contexts/SlideContext";
+import useSwipe from "./useSwipe";
 
 const CarouselBlock = styled.div`
   position: relative;
@@ -39,6 +39,8 @@ const Carousel = () => {
     forceMove,
   } = useSlideState();
   const dispatch = useSlideDispatch();
+  const { distance, handleTouchStart, handleTouchMove, handleTouchEnd } =
+    useSwipe(dispatch, currentIndex);
 
   const handleTransitionEnd = () => {
     if (currentIndex === bannerItems.length - 2) {
@@ -59,8 +61,11 @@ const Carousel = () => {
     <CarouselBlock onTransitionEnd={handleTransitionEnd}>
       <SlickTrack
         width={slickTrackWidth}
-        initTranslateX={initTranslateX}
+        initTranslateX={distance ? initTranslateX - distance : initTranslateX}
         force={forceMove}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchMove}
       >
         {bannerItems.map((item, arrayIndex) => {
           const props = { bannerImageSize, arrayIndex, ...item };
