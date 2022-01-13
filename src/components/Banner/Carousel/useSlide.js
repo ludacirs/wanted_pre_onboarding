@@ -1,5 +1,5 @@
 import dummy from "../../../mock/dummy.json";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import {
   CHANGE_BANNER_ITEMS,
   MOVE_NEXT_SLIDE,
@@ -7,10 +7,12 @@ import {
   useSlideDispatch,
   useSlideState,
 } from "../../../contexts/SlideContext";
+import throttleGenerator from "../../../lib/utils/throttleGenerator";
 
 const useSlide = () => {
   const { currentIndex } = useSlideState();
   const dispatch = useSlideDispatch();
+  const throttle = useCallback(throttleGenerator(500), []);
 
   useEffect(() => {
     const data = dummy;
@@ -31,15 +33,19 @@ const useSlide = () => {
   };
 
   const nextSlide = () => {
-    dispatch({
-      type: MOVE_NEXT_SLIDE,
-      payload: { index: currentIndex + 1 },
+    throttle(() => {
+      dispatch({
+        type: MOVE_NEXT_SLIDE,
+        payload: { index: currentIndex + 1 },
+      });
     });
   };
   const prevSlide = () => {
-    dispatch({
-      type: MOVE_NEXT_SLIDE,
-      payload: { index: currentIndex - 1 },
+    throttle(() => {
+      dispatch({
+        type: MOVE_NEXT_SLIDE,
+        payload: { index: currentIndex - 1 },
+      });
     });
   };
 
