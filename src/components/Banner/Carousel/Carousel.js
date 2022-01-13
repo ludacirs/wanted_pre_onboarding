@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import BannerItem from "./BannerItem/BannerItem";
 import {
   CHANGE_FORCE,
   FORCE_MOVE,
-  MOVE_NEXT_SLIDE,
   useSlideDispatch,
   useSlideState,
 } from "../../../contexts/SlideContext";
