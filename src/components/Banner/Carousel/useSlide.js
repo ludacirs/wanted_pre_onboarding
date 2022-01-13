@@ -1,14 +1,16 @@
 import dummy from "../../../mock/dummy.json";
 import { useEffect } from "react";
-import useSlideReducer, {
+import {
   CHANGE_BANNER_ITEMS,
+  MOVE_NEXT_SLIDE,
   RESIZE_BANNER,
-} from "./useSlideReducer";
+  useSlideDispatch,
+  useSlideState,
+} from "../../../contexts/SlideContext";
 
 const useSlide = () => {
-  const [state, dispatch] = useSlideReducer();
-  const { bannerItems, initTranslateX, slickTrackWidth, bannerImageSize } =
-    state;
+  const { currentIndex } = useSlideState();
+  const dispatch = useSlideDispatch();
 
   useEffect(() => {
     const data = dummy;
@@ -28,17 +30,20 @@ const useSlide = () => {
     dispatch({ type: RESIZE_BANNER, payload: { width } });
   };
 
-  const nextSlide = () => {};
-  const prevSlide = () => {};
-
-  return {
-    bannerItems,
-    initTranslateX,
-    slickTrackWidth,
-    bannerImageSize,
-    nextSlide,
-    prevSlide,
+  const nextSlide = () => {
+    dispatch({
+      type: MOVE_NEXT_SLIDE,
+      payload: { index: currentIndex + 1 },
+    });
   };
+  const prevSlide = () => {
+    dispatch({
+      type: MOVE_NEXT_SLIDE,
+      payload: { index: currentIndex - 1 },
+    });
+  };
+
+  return { nextSlide, prevSlide };
 };
 
 export default useSlide;
