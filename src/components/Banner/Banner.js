@@ -3,6 +3,7 @@ import styled from "styled-components";
 import ArrowButton from "./ArrowButton/ArrowButton";
 import Carousel from "./Carousel/Carousel";
 import useSlide from "./Carousel/useSlide";
+import useAutoSlide from "./useAutoSlide";
 
 const BannerBlock = styled.div`
   position: relative;
@@ -13,9 +14,13 @@ const BannerBlock = styled.div`
 
 const Banner = () => {
   const { prevSlide, nextSlide } = useSlide();
+  const { handleBannerEnter, handleBannerLeave } = useAutoSlide(nextSlide);
 
   return (
-    <BannerBlock>
+    <BannerBlock
+      onMouseEnter={handleBannerEnter}
+      onMouseLeave={handleBannerLeave}
+    >
       <Carousel />
       <ArrowButton position={"right"} handleClick={nextSlide} />
       <ArrowButton position={"left"} handleClick={prevSlide} />

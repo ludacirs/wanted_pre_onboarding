@@ -1,5 +1,5 @@
 import dummy from "../../../mock/dummy.json";
-import { useCallback, useEffect, useRef } from "react";
+import { useCallback, useEffect } from "react";
 import {
   CHANGE_BANNER_ITEMS,
   MOVE_NEXT_SLIDE,
@@ -9,11 +9,8 @@ import {
 } from "../../../contexts/SlideContext";
 import throttleGenerator from "../../../lib/utils/throttleGenerator";
 
-const DELAY_MS = 2500;
-
 const useSlide = () => {
   const throttle = useCallback(throttleGenerator(500), []);
-  const timerRef = useRef(null);
 
   const { currentIndex } = useSlideState();
   const dispatch = useSlideDispatch();
@@ -30,15 +27,6 @@ const useSlide = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    timerRef.current = setTimeout(() => {
-      nextSlide();
-    }, DELAY_MS);
-    return () => {
-      clearTimeout(timerRef.current);
-    };
-  }, [currentIndex]);
 
   const handleResize = () => {
     const width = window.innerWidth;
