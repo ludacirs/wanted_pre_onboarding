@@ -5,13 +5,15 @@ const useSwipe = (dispatch, currentIndex) => {
   const [isMouseClicking, setIsMouseClicking] = useState(false);
   const [coordinate, setCoordinate] = useState({
     startX: 0,
+    startY: 0,
     distance: 0,
   });
-  const { startX, distance } = coordinate;
+  const { startX, distance, startY } = coordinate;
 
   const handleMouseDown = (e) => {
+    const { clientX, clientY } = e;
     setIsMouseClicking(true);
-    setCoordinate({ ...coordinate, startX: e.clientX });
+    setCoordinate({ ...coordinate, startX: clientX, startY: clientY });
   };
   const handleMouseMove = (e) => {
     if (!isMouseClicking) {
@@ -22,7 +24,7 @@ const useSwipe = (dispatch, currentIndex) => {
 
   const handleMouseEnd = (e) => {
     setIsMouseClicking(false);
-    if (Math.abs(distance) < 10) {
+    if (Math.abs(distance) < 10 && Math.abs(startY - e.clientY) < 10) {
       const href = e.target.parentNode.href;
 
       href && window.location.assign(href);
