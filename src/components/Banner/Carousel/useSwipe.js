@@ -2,6 +2,7 @@ import { MOVE_NEXT_SLIDE } from "../../../contexts/SlideContext";
 import { useState } from "react";
 
 const useSwipe = (dispatch, currentIndex) => {
+  const [isMouseClicking, setIsMouseClicking] = useState(false);
   const [coordinate, setCoordinate] = useState({
     startX: 0,
     distance: 0,
@@ -9,15 +10,28 @@ const useSwipe = (dispatch, currentIndex) => {
   const { startX, distance } = coordinate;
 
   const handleTouchStart = (e) => {
-    setCoordinate({ ...coordinate, startX: e.touches[0].clientX });
+    setIsMouseClicking(true);
+    setCoordinate({ ...coordinate, startX: e.clientX });
   };
   const handleTouchMove = (e) => {
-    setCoordinate({ ...coordinate, distance: startX - e.touches[0].clientX });
+    if (!isMouseClicking) {
+      return;
+    }
+    setCoordinate({ ...coordinate, distance: startX - e.clientX });
   };
 
-  const handleTouchEnd = () => {
-    if (Math.abs(distance) < 450) {
-      setCoordinate({ ...coordinate, distance: 0 });
+  const handleTouchEnd = (e) => {
+    setIsMouseClicking(false);
+    if (Math.abs(distance) < 10) {
+      const href = e.target.parentNode.href;
+
+      href && window.location.assign(href);
+      setCoordinate({ startX: 0, distance: 0 });
+      return;
+    }
+
+    if (Math.abs(distance) < 350) {
+      setCoordinate({ startX: 0, distance: 0 });
       return;
     }
 
@@ -34,10 +48,22 @@ const useSwipe = (dispatch, currentIndex) => {
       });
     }
 
-    setCoordinate({ ...coordinate, distance: 0 });
+    setCoordinate({ startX: 0, distance: 0 });
   };
 
-  return { distance, handleTouchStart, handleTouchMove, handleTouchEnd };
+  const handleMouseLeave = (e) => {
+    if (!isMouseClicking) {
+      return;
+    }
+    handleTouchEnd(e);
+  };
+  return {
+    distance,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleMouseLeave,
+  };
 };
 
 export default useSwipe;

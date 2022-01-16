@@ -16,6 +16,10 @@ const BannerItem = ({
 }) => {
   const { currentIndex } = useSlideState();
 
+  const handleClick = (e) => {
+    e.preventDefault();
+  };
+
   return (
     <BannerItemBlock
       bannerSize={bannerImageSize}
@@ -23,8 +27,12 @@ const BannerItem = ({
     >
       <div className="item-container">
         <ImageContainer>
-          <a href={link}>
-            <img src={REACT_APP_LOCAL_HOST + imageSrc} alt="배너 이미지" />
+          <a href={link} draggable={false} onClick={handleClick}>
+            <img
+              src={REACT_APP_LOCAL_HOST + imageSrc}
+              alt="배너 이미지"
+              draggable={false}
+            />
           </a>
         </ImageContainer>
         <InformationContainer>

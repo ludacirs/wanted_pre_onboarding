@@ -9,25 +9,6 @@ import {
 } from "../../../contexts/SlideContext";
 import useSwipe from "./useSwipe";
 
-const CarouselBlock = styled.div`
-  position: relative;
-  display: block;
-  margin-bottom: 0;
-  .slick-list {
-    padding: 0 50px;
-  }
-`;
-
-const SlickTrack = styled.div`
-  display: flex;
-  position: relative;
-  left: 0;
-  top: 0;
-  ${({ width }) => `width: ${width}px`};
-  transform: ${({ initTranslateX }) => `translateX(${initTranslateX}px)`};
-  transition: ${({ force }) => (force ? `0` : `0.45`)}s;
-`;
-
 const Carousel = () => {
   const {
     slickTrackWidth,
@@ -38,8 +19,13 @@ const Carousel = () => {
     forceMove,
   } = useSlideState();
   const dispatch = useSlideDispatch();
-  const { distance, handleTouchStart, handleTouchMove, handleTouchEnd } =
-    useSwipe(dispatch, currentIndex);
+  const {
+    distance,
+    handleTouchStart,
+    handleTouchMove,
+    handleTouchEnd,
+    handleMouseLeave,
+  } = useSwipe(dispatch, currentIndex);
 
   const handleTransitionEnd = () => {
     if (currentIndex === bannerItems.length - 2) {
@@ -57,14 +43,15 @@ const Carousel = () => {
   };
 
   return (
-    <CarouselBlock onTransitionEnd={handleTransitionEnd}>
+    <CarouselBlock onTransitionEnd={handleTransitionEnd} draggable={false}>
       <SlickTrack
         width={slickTrackWidth}
-        initTranslateX={distance ? translateX - distance : translateX}
+        translateX={distance ? translateX - distance : translateX}
         force={forceMove}
-        onTouchStart={handleTouchStart}
-        onTouchEnd={handleTouchEnd}
-        onTouchMove={handleTouchMove}
+        onMouseLeave={handleMouseLeave}
+        onMouseDown={handleTouchStart}
+        onMouseUp={handleTouchEnd}
+        onMouseMove={handleTouchMove}
       >
         {bannerItems.map((item, arrayIndex) => {
           const props = { bannerImageSize, arrayIndex, ...item };
@@ -74,5 +61,26 @@ const Carousel = () => {
     </CarouselBlock>
   );
 };
+
+const CarouselBlock = styled.div`
+  position: relative;
+  display: block;
+  margin-bottom: 0;
+  min-width: 500px;
+
+  .slick-list {
+    padding: 0 50px;
+  }
+`;
+
+const SlickTrack = styled.div`
+  display: flex;
+  position: relative;
+  left: 0;
+  top: 0;
+  ${({ width }) => `width: ${width}px`};
+  transform: ${({ translateX }) => `translateX(${translateX}px)`};
+  transition: ${({ force }) => (force ? `0` : `0.45`)}s;
+`;
 
 export default Carousel;

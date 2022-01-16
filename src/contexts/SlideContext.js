@@ -12,7 +12,7 @@ const initialState = {
   bannerItems: [],
   translateX: 0,
   slickTrackWidth: 0,
-  bannerImageSize: 1060,
+  bannerImageSize: window.innerWidth >= 1200 ? 1060 : window.innerWidth - 80,
   currentIndex: 2,
   forceMove: false,
 };
@@ -20,7 +20,7 @@ const initialState = {
 const reducer = (state, { type, payload }) => {
   switch (type) {
     case CHANGE_BANNER_ITEMS: {
-      const { bannerImageSize, currentIndex } = state;
+      const { currentIndex, bannerImageSize } = state;
       const bannerItems = getSlides(payload.data);
       const windowWidth = window.innerWidth;
       const slickTrackWidth = bannerItems.length * windowWidth;
@@ -35,6 +35,7 @@ const reducer = (state, { type, payload }) => {
     case RESIZE_BANNER: {
       const windowWidth = payload.width;
       const bannerImageSize = windowWidth >= 1200 ? 1060 : windowWidth - 80;
+
       const slickTrackWidth = state.bannerItems.length * windowWidth;
       const translateX = getTranslateX(
         bannerImageSize,
