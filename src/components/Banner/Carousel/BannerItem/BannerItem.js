@@ -1,8 +1,10 @@
-import React, { useEffect } from "react";
+import React from "react";
 import styled from "styled-components";
 import ArrowContainer from "../../../_common/ArrowContainer/ArrowContainer";
 import { ReactComponent as RightArrow } from "../../../../assets/svgs/right-arrow.svg";
 import { useSlideState } from "../../../../contexts/SlideContext";
+
+const { REACT_APP_LOCAL_HOST } = process.env;
 
 const BannerItem = ({
   imageSrc,
@@ -22,7 +24,7 @@ const BannerItem = ({
       <div className="item-container">
         <ImageContainer>
           <a href={link}>
-            <img src={imageSrc} alt="배너 이미지" />
+            <img src={REACT_APP_LOCAL_HOST + imageSrc} alt="배너 이미지" />
           </a>
         </ImageContainer>
         <InformationContainer>

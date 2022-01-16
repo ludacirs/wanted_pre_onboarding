@@ -18,6 +18,7 @@ http://localhost:3000/
 
 - CRA
 - prettier
+- styled-components
 
 ## 구현 명세
 
