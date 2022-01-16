@@ -20,6 +20,8 @@ const Banner = () => {
     <BannerBlock
       onMouseEnter={handleBannerEnter}
       onMouseLeave={handleBannerLeave}
+      onTouchStart={handleBannerEnter}
+      onTouchEnd={handleBannerLeave}
     >
       <Carousel />
       <ArrowButton position={"right"} handleClick={nextSlide} />

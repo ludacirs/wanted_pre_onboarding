@@ -9,18 +9,18 @@ const useSwipe = (dispatch, currentIndex) => {
   });
   const { startX, distance } = coordinate;
 
-  const handleTouchStart = (e) => {
+  const handleMouseDown = (e) => {
     setIsMouseClicking(true);
     setCoordinate({ ...coordinate, startX: e.clientX });
   };
-  const handleTouchMove = (e) => {
+  const handleMouseMove = (e) => {
     if (!isMouseClicking) {
       return;
     }
     setCoordinate({ ...coordinate, distance: startX - e.clientX });
   };
 
-  const handleTouchEnd = (e) => {
+  const handleMouseEnd = (e) => {
     setIsMouseClicking(false);
     if (Math.abs(distance) < 10) {
       const href = e.target.parentNode.href;
@@ -55,14 +55,47 @@ const useSwipe = (dispatch, currentIndex) => {
     if (!isMouseClicking) {
       return;
     }
-    handleTouchEnd(e);
+    handleMouseEnd(e);
   };
+
+  const handleTouchStart = (e) => {
+    setCoordinate({ ...coordinate, startX: e.touches[0].clientX });
+  };
+  const handleTouchMove = (e) => {
+    setCoordinate({ ...coordinate, distance: startX - e.touches[0].clientX });
+  };
+
+  const handleTouchEnd = () => {
+    if (Math.abs(distance) < 450) {
+      setCoordinate({ ...coordinate, distance: 0 });
+      return;
+    }
+
+    if (distance < 0) {
+      dispatch({
+        type: MOVE_NEXT_SLIDE,
+        payload: { index: currentIndex - 1 },
+      });
+    }
+    if (distance > 0) {
+      dispatch({
+        type: MOVE_NEXT_SLIDE,
+        payload: { index: currentIndex + 1 },
+      });
+    }
+
+    setCoordinate({ ...coordinate, distance: 0 });
+  };
+
   return {
     distance,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseEnd,
+    handleMouseLeave,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleMouseLeave,
   };
 };
 

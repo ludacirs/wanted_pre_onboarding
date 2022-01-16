@@ -21,10 +21,13 @@ const Carousel = () => {
   const dispatch = useSlideDispatch();
   const {
     distance,
+    handleMouseDown,
+    handleMouseMove,
+    handleMouseEnd,
+    handleMouseLeave,
     handleTouchStart,
     handleTouchMove,
     handleTouchEnd,
-    handleMouseLeave,
   } = useSwipe(dispatch, currentIndex);
 
   const handleTransitionEnd = () => {
@@ -49,9 +52,12 @@ const Carousel = () => {
         translateX={distance ? translateX - distance : translateX}
         force={forceMove}
         onMouseLeave={handleMouseLeave}
-        onMouseDown={handleTouchStart}
-        onMouseUp={handleTouchEnd}
-        onMouseMove={handleTouchMove}
+        onMouseDown={handleMouseDown}
+        onMouseUp={handleMouseEnd}
+        onMouseMove={handleMouseMove}
+        onTouchStart={handleTouchStart}
+        onTouchEnd={handleTouchEnd}
+        onTouchMove={handleTouchMove}
       >
         {bannerItems.map((item, arrayIndex) => {
           const props = { bannerImageSize, arrayIndex, ...item };
