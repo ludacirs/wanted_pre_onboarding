@@ -31,7 +31,7 @@ const SlickTrack = styled.div`
 const Carousel = () => {
   const {
     slickTrackWidth,
-    initTranslateX,
+    translateX,
     bannerImageSize,
     bannerItems,
     currentIndex,
@@ -60,7 +60,7 @@ const Carousel = () => {
     <CarouselBlock onTransitionEnd={handleTransitionEnd}>
       <SlickTrack
         width={slickTrackWidth}
-        initTranslateX={distance ? initTranslateX - distance : initTranslateX}
+        initTranslateX={distance ? translateX - distance : translateX}
         force={forceMove}
         onTouchStart={handleTouchStart}
         onTouchEnd={handleTouchEnd}

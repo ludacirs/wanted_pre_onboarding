@@ -5,13 +5,12 @@ const BANNER_PADDING = 24;
 export const CHANGE_BANNER_ITEMS = "CHANGE_BANNER_ITEMS";
 export const RESIZE_BANNER = "RESIZE_BANNER";
 export const MOVE_NEXT_SLIDE = "MOVE_NEXT_SLIDE";
-export const MOVE_PREV_SLIDE = "MOVE_PREV_SLIDE";
 export const FORCE_MOVE = "FORCE_MOVE";
 export const CHANGE_FORCE = "CHANGE_FORCE";
 
 const initialState = {
   bannerItems: [],
-  initTranslateX: 0,
+  translateX: 0,
   slickTrackWidth: 0,
   bannerImageSize: 1060,
   currentIndex: 2,
@@ -25,39 +24,39 @@ const reducer = (state, { type, payload }) => {
       const bannerItems = getSlides(payload.data);
       const windowWidth = window.innerWidth;
       const slickTrackWidth = bannerItems.length * windowWidth;
-      const initTranslateX = getInitTranslateX(
+      const translateX = getTranslateX(
         bannerImageSize,
         windowWidth,
         currentIndex
       );
 
-      return { ...state, bannerItems, slickTrackWidth, initTranslateX };
+      return { ...state, bannerItems, slickTrackWidth, translateX };
     }
     case RESIZE_BANNER: {
       const windowWidth = payload.width;
       const bannerImageSize = windowWidth >= 1200 ? 1060 : windowWidth - 80;
       const slickTrackWidth = state.bannerItems.length * windowWidth;
-      const initTranslateX = getInitTranslateX(
+      const translateX = getTranslateX(
         bannerImageSize,
         windowWidth,
         state.currentIndex
       );
-      return { ...state, bannerImageSize, initTranslateX, slickTrackWidth };
+      return { ...state, bannerImageSize, translateX, slickTrackWidth };
     }
     case MOVE_NEXT_SLIDE: {
       const { bannerImageSize } = state;
       const targetIndex = payload.index;
-      const initTranslateX = getInitTranslateX(
+      const translateX = getTranslateX(
         bannerImageSize,
         window.innerWidth,
         targetIndex
       );
-      return { ...state, currentIndex: targetIndex, initTranslateX };
+      return { ...state, currentIndex: targetIndex, translateX };
     }
     case FORCE_MOVE: {
       const { bannerImageSize } = state;
       const targetIndex = payload.index;
-      const initTranslateX = getInitTranslateX(
+      const translateX = getTranslateX(
         bannerImageSize,
         window.innerWidth,
         targetIndex
@@ -65,7 +64,7 @@ const reducer = (state, { type, payload }) => {
       return {
         ...state,
         currentIndex: targetIndex,
-        initTranslateX,
+        translateX,
         forceMove: true,
       };
     }
@@ -114,7 +113,7 @@ const getSlides = (data) => {
   if (data.length === 1) {
     return data;
   }
-
+  data.sort(() => Math.random() - 0.5);
   return [
     data[data.length - 2],
     data[data.length - 1],
@@ -124,7 +123,7 @@ const getSlides = (data) => {
   ];
 };
 
-const getInitTranslateX = (bannerImageSize, windowWidth, targetIndex = 2) => {
+const getTranslateX = (bannerImageSize, windowWidth, targetIndex = 2) => {
   const bannerSize = bannerImageSize + BANNER_PADDING;
   const gap = (windowWidth - bannerSize) / 2;
   return -(bannerSize * targetIndex) + gap;

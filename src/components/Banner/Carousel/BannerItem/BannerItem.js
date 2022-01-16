@@ -14,7 +14,7 @@ const BannerItem = ({
   bannerImageSize,
   arrayIndex,
 }) => {
-  const { currentIndex, bannerItems } = useSlideState();
+  const { currentIndex } = useSlideState();
 
   return (
     <BannerItemBlock
