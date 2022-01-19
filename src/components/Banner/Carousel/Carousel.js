@@ -60,7 +60,17 @@ const Carousel = () => {
         onTouchMove={handleTouchMove}
       >
         {bannerItems.map((item, arrayIndex) => {
-          const props = { bannerImageSize, arrayIndex, ...item };
+          // 현재 배너가 처음이거나 마지막일 때 클론해서 붙여넣은 아이템도 동일한 속성을 같게 하기 위한 로직
+          if (isFirstORLast(currentIndex, arrayIndex, bannerItems.length)) {
+            const props = { bannerImageSize, currentItem: true, ...item };
+            return <BannerItem key={arrayIndex} {...props} />;
+          }
+
+          const props = {
+            bannerImageSize,
+            currentItem: currentIndex === arrayIndex,
+            ...item,
+          };
           return <BannerItem key={arrayIndex} {...props} />;
         })}
       </SlickTrack>
@@ -90,3 +100,7 @@ const SlickTrack = styled.div`
 `;
 
 export default Carousel;
+
+const isFirstORLast = (currentIndex, arrayIndex, totalSize) =>
+  (currentIndex === 1 && arrayIndex === totalSize - 3) ||
+  (currentIndex === totalSize - 2 && arrayIndex === 2);

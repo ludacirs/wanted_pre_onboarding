@@ -12,10 +12,8 @@ const BannerItem = ({
   description,
   link,
   bannerImageSize,
-  arrayIndex,
+  currentItem,
 }) => {
-  const { currentIndex } = useSlideState();
-
   const handleClick = (e) => {
     e.preventDefault();
   };
@@ -23,7 +21,7 @@ const BannerItem = ({
   return (
     <BannerItemBlock
       bannerSize={bannerImageSize}
-      className={arrayIndex === currentIndex ? "current" : ""}
+      className={currentItem && "current"}
     >
       <div className="item-container">
         <ImageContainer>
@@ -62,12 +60,12 @@ const BannerItemBlock = styled.div`
   &:not(.current) .item-container {
     filter: brightness(50%);
     & div:nth-child(2) {
-      display: none;
+      opacity: 0;
     }
   }
   .item-container {
     width: 100%;
-    display: inline-block;
+    opacity: 1;
   }
 `;
 
